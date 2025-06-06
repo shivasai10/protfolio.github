@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShivaSai Gourishetty - DevOps Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .profile-img {
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            object-fit: cover;
+        }
+        
+        .skill-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .experience-card {
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .experience-card:hover {
+            border-left-color: #8b5cf6;
+        }
+        
+        .dark .experience-card {
+            background: linear-gradient(to right, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8));
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+        }
+        
+        .theme-toggle {
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(15deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+    <div id="app" class="min-h-screen">
+        <!-- Header -->
+        <header class="fixed top-0 w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm z-50">
+            <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <h1 class="text-xl font-bold flex items-center">
+                    <span class="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">ShivaSai Gourishetty</span>
+                </h1>
+                <div class="flex items-center space-x-1 sm:space-x-4">
+                    <button onclick="scrollToSection('intro')" class="nav-link px-2 py-1 text-sm sm:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">Home</button>
+                    <button onclick="scrollToSection('about')" class="nav-link px-2 py-1 text-sm sm:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">About</button>
+                    <button onclick="scrollToSection('tech-stack')" class="nav-link px-2 py-1 text-sm sm:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">Skills</button>
+                    <button onclick="scrollToSection('experience')" class="nav-link px-2 py-1 text-sm sm:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">Experience</button>
+                    <button onclick="scrollToSection('contact')" class="nav-link px-2 py-1 text-sm sm:text-base text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">Contact</button>
+                    <button id="theme-toggle" class="theme-toggle p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition-all duration-300 hover:bg-gray-300 dark:hover:bg-gray-600">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Intro Section -->
+        <section id="intro" class="section bg-gradient-to-br from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-800">
+            <div class="container mx-auto px-4 text-center fade-in">
+                <div class="flex justify-center mb-8">
+                    <div class="relative inline-block">
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 blur-xl opacity-70 animate-pulse"></div>
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80" alt="ShivaSai Gourishetty" class="profile-img mx-auto relative">
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">ShivaSai Gourishetty</h1>
+                <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-blue-100">Senior DevOps Engineer</h2>
+                <p class="text-xl max-w-2xl mx-auto text-blue-50 mb-8">Specializing in cloud infrastructure, CI/CD pipelines, and containerization with over 8 years of professional experience</p>
+                <div class="flex justify-center space-x-4">
+                    <button onclick="scrollToSection('contact')" class="px-6 py-3 bg-white text-blue-600 font-medium rounded-lg hover-scale shadow-lg">
+                        Contact Me
+                    </button>
+                    <button onclick="scrollToSection('experience')" class="px-6 py-3 bg-transparent border-2 border-white text-white font-medium rounded-lg hover-scale">
+                        View Experience
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section py-16 bg-white dark:bg-gray-800">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white section-title">About Me</h2>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-700/50 p-6 md:p-8 rounded-xl shadow-md hover-scale fade-in">
+                    <p class="mb-4 text-gray-700 dark:text-gray-200">
+                        With over 8 years of experience as a DevOps Engineer, I specialize in delivering innovative solutions and efficient problem-solving. My expertise encompasses development and deployment operations across diverse environments, with hands-on experience in cloud platforms like AWS and Azure, Infrastructure as Code (IaC) using Terraform and CloudFormation, and containerization with Docker and Kubernetes.
+                    </p>
+                    <p class="text-gray-700 dark:text-gray-200">
+                        I have designed robust CI/CD pipelines, implemented monitoring and alerting solutions, and ensured secure, scalable environments with auto-scaling and self-healing capabilities. My skills include automation scripting in Python, Shell, and Ruby, and configuration management with Ansible, Chef, and Puppet. I thrive in Agile/Scrum environments and excel in cross-functional, geographically distributed teams.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl text-white shadow-lg hover-scale fade-in">
+                        <div class="text-4xl mb-4">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Cloud Infrastructure</h3>
+                        <p>Expertise in AWS and Azure cloud platforms with focus on scalability and security</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-xl text-white shadow-lg hover-scale fade-in">
+                        <div class="text-4xl mb-4">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">CI/CD Pipelines</h3>
+                        <p>Designing and implementing robust deployment pipelines using Jenkins, GitHub Actions, and GitLab CI</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 rounded-xl text-white shadow-lg hover-scale fade-in">
+                        <div class="text-4xl mb-4">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Containerization</h3>
+                        <p>Container orchestration with Docker and Kubernetes for scalable applications</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech-stack" class="section py-16 bg-gray-100 dark:bg-gray-900">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white section-title">Technical Skills</h2>
+                    <p class="mt-4 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">My expertise spans across multiple technologies and platforms in the DevOps ecosystem</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover-scale fade-in">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-cloud mr-2 text-blue-500"></i> Cloud Technologies
+                        </h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">AWS (EC2, VPC, S3)</span>
+                            <span class="skill-badge">AWS ECS & Lambda</span>
+                            <span class="skill-badge">Azure App Services</span>
+                            <span class="skill-badge">Azure AKS</span>
+                            <span class="skill-badge">Cosmos DB</span>
+                            <span class="skill-badge">IAM & Security</span>
+                            <span class="skill-badge">Auto Scaling</span>
+                            <span class="skill-badge">CloudFormation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover-scale fade-in">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-code mr-2 text-purple-500"></i> DevOps & CI/CD
+                        </h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Jenkins</span>
+                            <span class="skill-badge">GitHub Actions</span>
+                            <span class="skill-badge">GitLab CI</span>
+                            <span class="skill-badge">Azure Pipelines</span>
+                            <span class="skill-badge">Docker</span>
+                            <span class="skill-badge">Kubernetes</span>
+                            <span class="skill-badge">Helm</span>
+                            <span class="skill-badge">Terraform</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover-scale fade-in">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-server mr-2 text-green-500"></i> Infrastructure & Config
+                        </h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Ansible</span>
+                            <span class="skill-badge">Chef</span>
+                            <span class="skill-badge">Puppet</span>
+                            <span class="skill-badge">Linux/Ubuntu</span>
+                            <span class="skill-badge">CentOS</span>
+                            <span class="skill-badge">Windows Server</span>
+                            <span class="skill-badge">Nginx</span>
+                            <span class="skill-badge">Apache</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover-scale fade-in">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-chart-line mr-2 text-yellow-500"></i> Monitoring & Logging
+                        </h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Prometheus</span>
+                            <span class="skill-badge">Grafana</span>
+                            <span class="skill-badge">CloudWatch</span>
+                            <span class="skill-badge">CloudTrail</span>
+                            <span class="skill-badge">ELK Stack</span>
+                            <span class="skill-badge">Zabbix</span>
+                            <span class="skill-badge">Nagios</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section py-16 bg-white dark:bg-gray-800">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white section-title">Work Experience</h2>
+                    <p class="mt-4 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">My professional journey as a DevOps engineer</p>
+                </div>
+                
+                <div class="space-y-8">
+                    <!-- Peapod -->
+                    <div class="experience-card bg-gray-50 dark:bg-gray-700/30 p-6 rounded-xl shadow-md fade-in hover-scale">
+                        <div class="flex flex-wrap justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Sr DevOps Engineer</h3>
+                                <p class="text-gray-700 dark:text-gray-300">Peapod Digital Labs, Chicago, IL</p>
+                            </div>
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium mt-2 sm:mt-0">
+                                Jan 2023 - Present
+                            </span>
+                        </div>
+                        <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Designed and automated secure, scalable AWS infrastructure and Kubernetes deployments using Terraform, Helm, and CI/CD pipelines with Jenkins and GitHub Actions</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Implemented comprehensive monitoring, alerting, and secret management solutions with Prometheus, Grafana, Vault, and AWS tools</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Managed IAM roles, policies, and security groups, applying least privilege principles</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Built pipeline templates and reusable workflows for microservices, improving onboarding time</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Splunk -->
+                    <div class="experience-card bg-gray-50 dark:bg-gray-700/30 p-6 rounded-xl shadow-md fade-in hover-scale">
+                        <div class="flex flex-wrap justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Sr DevOps Engineer</h3>
+                                <p class="text-gray-700 dark:text-gray-300">Splunk, San Francisco, CA (Remote)</p>
+                            </div>
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium mt-2 sm:mt-0">
+                                Mar 2021 - Dec 2022
+                            </span>
+                        </div>
+                        <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Converted ELB to ALB using Ansible scripts and optimized instance launches</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Managed infrastructure code maintenance as a platform operations team member</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Automated instance launches using Ansible, streamlining deployments and ensuring consistency</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Set up ECS clusters for running microservices, and automated ECS infrastructure deployment</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Casey's -->
+                    <div class="experience-card bg-gray-50 dark:bg-gray-700/30 p-6 rounded-xl shadow-md fade-in hover-scale">
+                        <div class="flex flex-wrap justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">DevOps Engineer</h3>
+                                <p class="text-gray-700 dark:text-gray-300">Casey's General Store, Ankey, IA</p>
+                            </div>
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium mt-2 sm:mt-0">
+                                Dec 2019 – Feb 2021
+                            </span>
+                        </div>
+                        <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Implemented cloud security architecture design, including defining requirements and establishing guardrails</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Conducted gap analysis and implemented remediation strategies to enhance stability and security</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Managed vulnerability scanning for internal and external assets</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Designed and implemented secure, scalable cloud architectures based on AWS</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- JC Penney -->
+                    <div class="experience-card bg-gray-50 dark:bg-gray-700/30 p-6 rounded-xl shadow-md fade-in hover-scale">
+                        <div class="flex flex-wrap justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white"> DevOps Engineer</h3>
+                                <p class="text-gray-700 dark:text-gray-300">JC Penney, Plano, TX</p>
+                            </div>
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium mt-2 sm:mt-0">
+                                Aug 2017 – Nov 2019
+                            </span>
+                        </div>
+                        <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Built and maintained containerized microservices, configured private container registries on Azure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Migrated on-prem servers to Azure IaaS, provisioning VMs, storage, and availability sets</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Set up hybrid connections between Azure Web Apps and on-premises SQL databases</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Built a production-grade, high availability Kubernetes infrastructure</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Gigstart -->
+                    <div class="experience-card bg-gray-50 dark:bg-gray-700/30 p-6 rounded-xl shadow-md fade-in hover-scale">
+                        <div class="flex flex-wrap justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">DevOps Engineer</h3>
+                                <p class="text-gray-700 dark:text-gray-300">Gigstart, Delhi, IN</p>
+                            </div>
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium mt-2 sm:mt-0">
+                                June 2016 – July 2017
+                            </span>
+                        </div>
+                        <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Served as a DevOps Engineer, responsible for project planning, build management, deployments, and software release processes</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Deployed AWS EC2 instances with Elastic Load Balancers (ELB) and configured Virtual Private Cloud (VPC) settings</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Led the migration of HTML and PHP websites to AWS, managing DNS updates</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Monitored and optimized cloud infrastructure using Amazon CloudWatch</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section py-16 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white section-title">Get In Touch</h2>
+                    <p class="mt-4 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Have a project in mind or want to discuss opportunities? Feel free to reach out!</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover-scale fade-in">
+                    <div class="grid grid-cols-1 md:grid-cols-2">
+                        <div class="p-8 md:p-10">
+                            <h3 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Contact Information</h3>
+                            
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-start">
+                                    <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-envelope text-blue-600 dark:text-blue-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 dark:text-white">Email</h4>
+                                        <p class="text-gray-600 dark:text-gray-300">gourishivasai06@gmail.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-phone text-blue-600 dark:text-blue-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 dark:text-white">Phone</h4>
+                                        <p class="text-gray-600 dark:text-gray-300">(937)-305-7009</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-map-marker-alt text-blue-600 dark:text-blue-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 dark:text-white">Location</h4>
+                                        <p class="text-gray-600 dark:text-gray-300">Chicago, IL</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-8">
+                                <h4 class="font-semibold mb-4 text-gray-800 dark:text-white">Connect with me</h4>
+                                <div class="flex space-x-4">
+                                    <a href="https://www.linkedin.com/in/shiva-sai-gourishetti-218a71352/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+                                        <i class="fab fa-linkedin-in text-xl"></i>
+                                    </a>
+                                    <a href="https://medium.com/@gourishivasai06" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-900 transition-colors">
+                                        <i class="fab fa-medium-m text-xl"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-blue-500 to-purple-600 p-8 md:p-10 text-white">
+                            <h3 class="text-2xl font-bold mb-6">Download Resume</h3>
+                            <p class="mb-6">Download my full resume to learn more about my qualifications and experience.</p>
+                            <a href="shivasaigouri.Devops.docx" download class="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-medium rounded-lg shadow-md hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-download mr-2"></i>
+                                Download Resume
+                            </a>
+                            
+                            <div class="mt-10">
+                                <h4 class="text-xl font-bold mb-4">What I Offer</h4>
+                                <ul class="space-y-2">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        Cloud Infrastructure Design & Implementation
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        CI/CD Pipeline Automation
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        Containerization & Orchestration
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        Infrastructure as Code (IaC)
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        Monitoring & Alerting Solutions
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 bg-gray-800 text-gray-300">
+            <div class="container mx-auto px-4 text-center">
+                <p>© 2023 ShivaSai Gourishetty. All rights reserved.</p>
+                <p class="mt-2 text-gray-500 text-sm">Designed and built with ❤️</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or respect OS preference
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+        
+        // Scroll to section function
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Fade in animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
